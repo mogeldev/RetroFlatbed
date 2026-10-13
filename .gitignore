@@ -1,0 +1,17 @@
+# build output
+/build/
+/dist/
+*.obj
+*.res
+*.exp
+*.lib
+*.pdb
+*.ilk
+
+# python
+__pycache__/
+
+# never commit signing keys
+*.pfx
+*.pvk
+*.snk

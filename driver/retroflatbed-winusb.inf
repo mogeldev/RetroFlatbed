@@ -1,0 +1,35 @@
+; RetroFlatbed: Canon CanoScan LiDE 20 (USB\VID_04A9&PID_220D) - binds the inbox WinUSB driver
+; so the user-space driver (RetroFlatbed core / RetroFlatbed.ds) can talk to the scanner.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = USBDevice
+ClassGuid   = {88BAE032-5A81-49f0-BC3D-A4FF138216D6}
+Provider    = %ProviderName%
+CatalogFile = retroflatbed-winusb.cat
+DriverVer   = 10/14/2026,0.1.0.0
+PnpLockdown = 1
+
+[Manufacturer]
+%ProviderName% = Models, NTamd64
+
+[Models.NTamd64]
+%DeviceName% = Install, USB\VID_04A9&PID_220D
+
+[Install]
+Include = winusb.inf
+Needs   = WINUSB.NT
+
+[Install.HW]
+AddReg = Install.AddReg
+
+[Install.Services]
+Include = winusb.inf
+Needs   = WINUSB.NT.Services
+
+[Install.AddReg]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{f3efabc5-b637-4d66-91bb-38463acb9463}"
+
+[Strings]
+ProviderName = "RetroFlatbed"
+DeviceName   = "Canon CanoScan LiDE 20 (WinUSB)"

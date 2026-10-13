@@ -1,0 +1,69 @@
+; RetroFlatbed: Canon CanoScan LiDE 20 (USB\VID_04A9&PID_220D) as a Windows Image Acquisition
+; (WIA) scanner. The device is accessed through WinUSB by the user-mode WIA
+; driver RetroFlatbedWIA.dll (no kernel-mode code of our own).
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = Image
+ClassGUID   = {6bdd1fc6-810f-11d0-bec7-08002be2092f}
+Provider    = %ProviderName%
+CatalogFile = retroflatbed-wia.cat
+DriverVer   = 10/14/2026,0.1.0.0
+PnpLockdown = 1
+
+[SourceDisksNames]
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+RetroFlatbedWIA.dll = 1
+
+[DestinationDirs]
+DefaultDestDir     = 13
+Lide20.CopyFiles   = 13
+
+[Manufacturer]
+%ProviderName% = Models, NTamd64
+
+[Models.NTamd64]
+%DeviceDesc% = Lide20.Install, USB\VID_04A9&PID_220D
+
+[Lide20.Install]
+Include       = sti.inf, winusb.inf
+Needs         = STI.SerialSection, WINUSB.NT
+PortSelect    = no
+SubClass      = StillImage
+DeviceType    = 1
+DeviceSubType = 0x1
+Capabilities  = 0x30
+AddReg        = Lide20.AddReg
+CopyFiles     = Lide20.CopyFiles
+
+[Lide20.Install.HW]
+Include = winusb.inf
+Needs   = WINUSB.NT.HW
+AddReg  = Lide20.HW.AddReg
+
+[Lide20.Install.Services]
+Include  = sti.inf, winusb.inf
+Needs    = STI.SerialSection.Services, WINUSB.NT.Services
+
+[Lide20.CopyFiles]
+RetroFlatbedWIA.dll
+
+; Image-class devices default to a restrictive ACL; allow the WIA service (LocalService)
+; and every signed-in user (TWAIN applications, lide20scan.exe) to open the device.
+[Lide20.HW.AddReg]
+HKR,,DeviceInterfaceGUIDs,0x10000,"{f3efabc5-b637-4d66-91bb-38463acb9463}"
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;GA;;;LS)(A;;GRGW;;;AU)"
+
+[Lide20.AddReg]
+HKR,,HardwareConfig,1,1
+HKR,,USDClass,,"{c6d0a3e2-5b0f-4c11-9a52-7d1f0b8e4a21}"
+HKCR,CLSID\{c6d0a3e2-5b0f-4c11-9a52-7d1f0b8e4a21},,,"RetroFlatbed WIA driver (Canon CanoScan LiDE 20)"
+HKCR,CLSID\{c6d0a3e2-5b0f-4c11-9a52-7d1f0b8e4a21}\InProcServer32,,0x00020000,%13%\RetroFlatbedWIA.dll
+HKCR,CLSID\{c6d0a3e2-5b0f-4c11-9a52-7d1f0b8e4a21}\InProcServer32,ThreadingModel,,"Both"
+
+[Strings]
+ProviderName = "RetroFlatbed"
+DiskName     = "RetroFlatbed WIA driver"
+DeviceDesc   = "Canon CanoScan LiDE 20"

@@ -1,0 +1,13 @@
+/* Files embedded into RetroFlatbedSetup.exe. Produced by make-installer.ps1 into dist\payload\. */
+#include "resource.h"
+
+IDR_WIA_INF  RCDATA "..\\dist\\payload\\retroflatbed-wia.inf"
+IDR_WIA_CAT  RCDATA "..\\dist\\payload\\retroflatbed-wia.cat"
+IDR_WIA_DLL  RCDATA "..\\dist\\payload\\RetroFlatbedWIA.dll"
+IDR_USB_INF  RCDATA "..\\dist\\payload\\retroflatbed-winusb.inf"
+IDR_USB_CAT  RCDATA "..\\dist\\payload\\retroflatbed-winusb.cat"
+IDR_DS64     RCDATA "..\\dist\\payload\\RetroFlatbed64.ds"
+IDR_DS32     RCDATA "..\\dist\\payload\\RetroFlatbed32.ds"
+IDR_DSM64    RCDATA "..\\dist\\payload\\TWAINDSM64.dll"
+IDR_DSM32    RCDATA "..\\dist\\payload\\TWAINDSM32.dll"
+IDR_CERT     RCDATA "..\\dist\\payload\\retroflatbed.cer"
